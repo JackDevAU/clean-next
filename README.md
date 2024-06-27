@@ -1,7 +1,7 @@
 # Clean Next.js
 
 > [!WARNING]  
-WIP - This is no where near finished
+WIP - This is nowhere near finished
 
 ### Todo.
 
