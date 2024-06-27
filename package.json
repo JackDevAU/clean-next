@@ -1,19 +1,22 @@
 {
-  "name": "clean-nextjs",
-  "private": true,
-  "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
-  },
-  "devDependencies": {
-    "prettier": "^3.2.5",
-    "turbo": "^2.0.5",
-    "typescript": "^5.4.5"
-  },
-  "packageManager": "pnpm@8.15.6",
-  "engines": {
-    "node": ">=18"
-  }
+	"name": "clean-nextjs",
+	"private": true,
+	"scripts": {
+		"build": "turbo build",
+		"dev": "turbo dev",
+		"format": "biome check . --write",
+		"lint": "biome check .",
+		"cli": "turbo dev --filter=cli",
+		"watch": "turbo watch watch"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.8.2",
+		"turbo": "^2.0.5",
+		"typescript": "^5.4.5",
+		"@types/node": "^20.14.9"
+	},
+	"packageManager": "pnpm@9.0.0",
+	"engines": {
+		"node": ">=18"
+	}
 }
