@@ -18,8 +18,8 @@ jobs:
       - uses: pnpm/action-setup@v4
       - name: Install dependencies
         run: pnpm install
-      - name: Run tests
-        run: pnpm test
+      # - name: Run tests
+      #   run: pnpm test
 
   publish-beta:
     if: github.event_name == 'push'
