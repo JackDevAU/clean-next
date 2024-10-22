@@ -5,7 +5,12 @@ import {
 	CheckConfig,
 	type ConfigOptions,
 } from "../../../util/config.js";
-import { Install, RemoteInstall, TryWriteFile } from "../../../util/index.js";
+import {
+	Install,
+	RemoteInstall,
+	TryWriteFile,
+	updateJsonFile,
+} from "../../../util/index.js";
 import { CommandName } from "../index.js";
 import { cleanNextShadcnuiInstall } from "./default.js";
 import { layoutGenerator } from "./generators/layout.js";
@@ -30,7 +35,7 @@ export const addShadcnuiAction = async ({ manual }: { manual: boolean }) => {
 	try {
 		if (manual) {
 			const [command, initialArgs] = RemoteInstall(config.packageManager);
-			await execa(command, [...initialArgs, "shadcn-ui@latest", "init"], {
+			await execa(command, [...initialArgs, "shadcn@latest", "init"], {
 				stdio: "inherit",
 			});
 		} else {

@@ -7,7 +7,7 @@ export const cleanNextShadcnuiInstall = async (
 	config: ConfigOptions,
 ) => {
 	const [command, initialArgs = []] = RemoteInstall(config.packageManager);
-	await execa(command, [...initialArgs, "shadcn-ui@latest", "init", "-d"], {
+	await execa(command, [...initialArgs, "shadcn@latest", "init", "-d"], {
 		stdio: "inherit",
 	});
 };

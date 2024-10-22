@@ -1,6 +1,7 @@
 import { type Command, Option } from "commander";
 import consola from "consola";
 import { addBiomejsAction } from "./biomejs/index.js";
+import { addNextAuthAction } from "./next-auth/index.js";
 import { addShadcnuiAction } from "./shadcnui/index.js";
 import { addVSCodeAction } from "./vscode/index.js";
 
@@ -8,6 +9,7 @@ export const CommandName = {
 	shadcnui: "shadcnui",
 	biomejs: "biomejs",
 	vscode: "vscode",
+	nextAuth: "nextAuth",
 };
 
 export function addCommand(program: Command) {
@@ -26,6 +28,9 @@ export function addCommand(program: Command) {
 					break;
 				case CommandName.vscode:
 					await addVSCodeAction();
+					break;
+				case CommandName.nextAuth:
+					await addNextAuthAction();
 					break;
 				default:
 					consola.error(`Unknown package: ${input}`);

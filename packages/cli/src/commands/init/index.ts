@@ -47,7 +47,7 @@ export function initCommand(program: Command) {
 						command,
 						[
 							...initialArgs,
-							"create-next-app@latest",
+							"create-next-app@14",
 							appName,
 							"--typescript",
 							"--tailwind",

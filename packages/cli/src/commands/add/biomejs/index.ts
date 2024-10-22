@@ -57,6 +57,7 @@ export const addBiomejsAction = async () => {
 			css: {
 				formatter: {
 					enabled: true,
+					indentStyle: "space",
 				},
 				linter: {
 					enabled: true,

@@ -1,4 +1,3 @@
-import consola from "consola";
 import { execa } from "execa";
 import type { ConfigOptions } from "../../util/config.js";
 import { RemoteInstall, TryWriteFile } from "../../util/index.js";
@@ -16,7 +15,7 @@ export const cleanNext = async (
 		command,
 		[
 			...initialArgs,
-			"create-next-app@latest",
+			"create-next-app@14",
 			appName,
 			"--typescript",
 			"--tailwind",
