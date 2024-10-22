@@ -1,8 +1,9 @@
-import { type Command, Option } from "commander";
+import type { Command } from "commander";
 import consola from "consola";
 import { addBiomejsAction } from "./biomejs/index.js";
 import { addNextAuthAction } from "./next-auth/index.js";
 import { addShadcnuiAction } from "./shadcnui/index.js";
+import { addTinaCMSAction } from "./tinacms/index.js";
 import { addVSCodeAction } from "./vscode/index.js";
 
 export const CommandName = {
@@ -10,6 +11,7 @@ export const CommandName = {
 	biomejs: "biomejs",
 	vscode: "vscode",
 	nextAuth: "nextAuth",
+	tinacms: "tinacms",
 };
 
 export function addCommand(program: Command) {
@@ -31,6 +33,9 @@ export function addCommand(program: Command) {
 					break;
 				case CommandName.nextAuth:
 					await addNextAuthAction();
+					break;
+				case CommandName.tinacms:
+					await addTinaCMSAction();
 					break;
 				default:
 					consola.error(`Unknown package: ${input}`);

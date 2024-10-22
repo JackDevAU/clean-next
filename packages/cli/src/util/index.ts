@@ -1,5 +1,6 @@
-import fs from "node:fs/promises";
-import path from "node:path";
+import fs, { rmdir } from "node:fs/promises";
+import { unlink } from "node:fs/promises";
+import path, { dirname } from "node:path";
 import type { Stream } from "node:stream";
 import consola from "consola";
 
@@ -153,6 +154,37 @@ export const TryWriteFile = async (
 	} catch (error) {
 		if (error instanceof Error) {
 			consola.error(`Failed to create ${fileName}: ${error.message}`);
+		}
+		return false;
+	}
+};
+
+export const TryRemoveFile = async (filePath: string): Promise<boolean> => {
+	try {
+		// Remove the file
+		await unlink(filePath);
+		consola.info(`File removed at ${filePath}`);
+
+		// Now attempt to remove the directories if they are empty
+		let dirPath = dirname(filePath);
+
+		// Check each directory upwards and remove if empty
+		while (dirPath !== "/") {
+			try {
+				// Try to remove the directory
+				await rmdir(dirPath);
+				consola.info(`Empty directory removed at ${dirPath}`);
+				dirPath = dirname(dirPath); // Move to the parent directory
+			} catch (error) {
+				// Stop if the directory isn't empty or any other error occurs
+				break;
+			}
+		}
+
+		return true;
+	} catch (error) {
+		if (error instanceof Error) {
+			consola.error(`Failed to remove file at ${filePath}: ${error.message}`);
 		}
 		return false;
 	}
