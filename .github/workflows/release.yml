@@ -5,34 +5,42 @@ on:
     branches:
       - main
 
-concurrency: ${{ github.workflow }}-${{ github.ref }}
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
 
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repo
+      # Checkout the repository
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
+      # Setup Node.js 20.x
       - name: Setup Node.js 20.x
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version: 20
+          cache: pnpm
 
-      - uses: pnpm/action-setup@v4
-        name: "Setup pnpm"
+      # Setup pnpm and install dependencies
+      - name: Setup and Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          run_install: false
-          
-      - name: Install dependencies
-        run: pnpm install
+          version: 10 # Use the required pnpm version
+          run_install: |
+            - recursive: true
+              args: [--no-frozen-lockfile, --strict-peer-dependencies]
 
+      # Create a release pull request or publish to npm
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
-          # This expects you to have a script called release which does a build for your packages and calls changeset publish
+          # This script should build and publish your packages
           publish: pnpm release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
