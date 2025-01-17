@@ -19,10 +19,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # Setup pnpm and install dependencies
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
       # Setup Node.js 20.x
       - name: Setup Node.js 20.x
         uses: actions/setup-node@v4
@@ -30,13 +26,18 @@ jobs:
           node-version: 20
           cache: pnpm
 
-      # Create a release pull request or publish to npm
+      # Setup pnpm
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      # Install dependencies
+      - name: Install Dependencies
+        run: pnpm install
+
+      # Build and release
       - name: Create Release Pull Request or Publish to npm
         id: changesets
-        uses: changesets/action@v1
-        with:
-          # This script should build and publish your packages
-          publish: pnpm release
+        run: pnpm release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
