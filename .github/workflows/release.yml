@@ -25,16 +25,19 @@ jobs:
         with:
           node-version: 20
 
+      # Setup pnpm
       - uses: pnpm/action-setup@v4
         name: Setup pnpm
         with:
           run_install: false
 
+      # Get pnpm store directory
       - name: Get pnpm store directory
-        shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+        shell: bash
 
+      # Cache pnpm store
       - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
@@ -43,11 +46,24 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
+      # Install dependencies
       - name: Install dependencies
         run: pnpm install
 
+      # Build the project
+      - name: Build the project
+        run: pnpm build
+
+      # Check for changesets
+      - id: check-changesets
+        name: Check for Changesets
+        run: |
+          pnpm changeset status --since=main
+        continue-on-error: true
+
       # Build and release
       - name: Create Release Pull Request or Publish to npm
+        if: ${{ steps.check-changesets.outcome == 'success' }}
         id: changesets
         run: pnpm release
         env:
