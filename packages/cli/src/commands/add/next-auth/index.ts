@@ -15,4 +15,6 @@ export const addNextAuthAction = async () => {
 		}
 		return;
 	}
+
+	// TODO: Default the auth between plaintext and Discord
 };

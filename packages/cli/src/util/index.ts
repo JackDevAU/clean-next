@@ -189,3 +189,48 @@ export const TryRemoveFile = async (filePath: string): Promise<boolean> => {
 		return false;
 	}
 };
+
+const writeFileAndAppend = async (
+	filePath: string,
+	fileName: string,
+	data: string | Uint8Array,
+) => {
+	const appDirectory = path.resolve(process.cwd(), filePath);
+
+	// Ensure the directory exists or create it
+	await fs.mkdir(appDirectory, { recursive: true });
+
+	const fullPath = path.join(appDirectory, fileName);
+
+	try {
+		// Attempt to append to the file if it exists
+		await fs.appendFile(fullPath, data);
+		consola.info(`Appended data to ${fileName}`);
+	} catch (error) {
+		// If the file doesn't exist, create it by writing the file
+		if (error && (error as NodeJS.ErrnoException).code === "ENOENT") {
+			await fs.writeFile(fullPath, data);
+			consola.info(`Created and wrote to ${fileName}`);
+		} else {
+			throw error;
+		}
+	}
+};
+
+export const TryWriteFileAndAppend = async (
+	filePath: string,
+	fileName: string,
+	data: string | Uint8Array,
+): Promise<boolean> => {
+	try {
+		await writeFileAndAppend(filePath, fileName, data);
+		return true;
+	} catch (error) {
+		if (error instanceof Error) {
+			consola.error(
+				`Failed to write or append to ${fileName}: ${error.message}`,
+			);
+		}
+		return false;
+	}
+};

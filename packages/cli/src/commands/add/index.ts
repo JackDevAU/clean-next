@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import consola from "consola";
+import { addAzureBlobAction } from "./azure-blob-storage/index.js";
 import { addBiomejsAction } from "./biomejs/index.js";
 import { addNextAuthAction } from "./next-auth/index.js";
 import { addShadcnuiAction } from "./shadcnui/index.js";
@@ -12,6 +13,7 @@ export const CommandName = {
 	vscode: "vscode",
 	nextAuth: "nextAuth",
 	tinacms: "tinacms",
+	azureblob: "azureblob",
 };
 
 export function addCommand(program: Command) {
@@ -36,6 +38,9 @@ export function addCommand(program: Command) {
 					break;
 				case CommandName.tinacms:
 					await addTinaCMSAction();
+					break;
+				case CommandName.azureblob:
+					await addAzureBlobAction();
 					break;
 				default:
 					consola.error(`Unknown package: ${input}`);

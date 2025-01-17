@@ -7,7 +7,7 @@
 		"format": "biome check . --write",
 		"lint": "biome check .",
 		"cli": "turbo dev --filter=cli",
-		"watch": "turbo watch watch"
+		"watch": "turbo run watch"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
